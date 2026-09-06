@@ -1,6 +1,4 @@
-# AgentScan
-
-Point it at code, get the risks back. Your source never leaves the machine.
+Scan the code locally. Fast and Free. 
 
 Website: [https://hgus107.github.io/YoFile/suite.html?app=agentscan](https://hgus107.github.io/YoFile/suite.html?app=agentscan)
 
