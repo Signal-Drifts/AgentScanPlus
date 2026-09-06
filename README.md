@@ -36,14 +36,28 @@ Findings are grouped into four categories.
 
 **Agent Security** (`AGENTS.md`, `CLAUDE.md`, `SKILL.md`)
 1. Instruction-override text — "ignore previous instructions" and similar
-2. Auto-approve authority — `--dangerously-skip-permissions`, `--yolo`, "auto-approve", "no confirmation" — *critical*
+2. Auto-approve authority — `--dangerously-skip-permissions`, `--yolo`, "auto-approve", "without asking", "no confirmation", "skip permission" — *critical*
 3. Broad or destructive command authority — `rm -rf`, "run any command", "full access"
-4. Approval instructions not detected
-5. No stuck or looping guidance detected
+4. Network exfiltration instruction — `curl` / `wget` / "upload" / "post to" / "send to" / "exfiltrate" pointed at an `http(s)` URL
+5. Credential or secret file access — `printenv`, `cat .env`, `~/.aws`, `.ssh/`, `id_rsa`, "credentials file"
+6. Hidden Unicode in instructions — zero-width or bidirectional control characters that can hide injected text — *critical*
+7. Unrestricted file-write authority — "outside the project", "write to any", "anywhere on the", `/etc/`, "system files"
+8. Untrusted content elevated to instructions — "treat … as instructions", "follow the instructions in", "execute instructions from" — *critical*
+9. Unreviewed memory persistence — "write to memory", "save to memory", "update memory", "persist … memory"
+10. Safety or permission bypass instruction — "bypass", "override safety", "ignore safety", "disable" a permission/safety/guardrail — *critical*
+11. Approval instructions not detected
+12. No stuck or looping guidance detected
 
 **MCP Security** (`mcp*.json` / `.toml` / `.yaml`)
 1. Broad access — a root path `"/"`, `Bash(*)`, or `--allow-all` (`--allow-all` is *critical*)
 2. Shell command in the configuration — `bash -c`, `sh -c`
+3. Unpinned server version — `npx -y` / `npx --yes`, `@latest` / `:latest` / `"latest"`
+4. Remote code fetched at launch — `curl … | sh`/`| bash`, or `node` / `python` / `wget` run against an `http(s)` URL — *critical*
+5. Embedded secret in configuration — a `token` / `api_key` / `secret` / `password` set to a literal in the config — *critical*
+6. Overly broad network or path scope — `0.0.0.0`, `"**"`, `*:*`, or an `allow-net` wildcard
+7. Server sourced from a remote URL — `git+http`, `http(s)` in a `command` / `args` / `url` / `github.com` field
+8. Writable or destructive tool capability — `"write"`, `"delete"`, `"execute"`, `write_file`, or `"all"`
+9. No tool allowlist configured — no recognized `allowedTools` / `allowlist` / `permission` / `tools` declaration
 
 ## Optional tools
 
